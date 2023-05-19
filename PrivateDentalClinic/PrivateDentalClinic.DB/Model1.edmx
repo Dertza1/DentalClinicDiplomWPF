@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DentalClinicDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appointments">
+          <Key>
+            <PropertyRef Name="AppointmentID" />
+          </Key>
+          <Property Name="AppointmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BeginTimeAppointment" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTimeAppointment" Type="time" Precision="7" Nullable="false" />
+          <Property Name="DateAppointment" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="DoctorID" Type="int" />
+          <Property Name="StatusAppointmentID" Type="int" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="ServiceID" Type="int" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="DayOfBirth" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="DoctorID" />
+          </Key>
+          <Property Name="DoctorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="MiddleName" Type="nvarchar(max)" />
+          <Property Name="WorkPhone" Type="nvarchar(max)" />
+          <Property Name="PersonalPhone" Type="nvarchar(max)" />
+          <Property Name="CabinetNumber" Type="nvarchar(max)" />
+          <Property Name="WorkExperience" Type="nvarchar(max)" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+          <Property Name="SpecializationID" Type="int" />
+        </EntityType>
+        <EntityType Name="HistoryAppointment">
+          <Key>
+            <PropertyRef Name="HistoryAppointmentID" />
+          </Key>
+          <Property Name="HistoryAppointmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="AppointmentsAppointmentID" Type="int" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Specializations">
+          <Key>
+            <PropertyRef Name="SpecializationID" />
+          </Key>
+          <Property Name="SpecializationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecializationName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="StatusAppointment">
+          <Key>
+            <PropertyRef Name="StatusAppointmentID" />
+          </Key>
+          <Property Name="StatusAppointmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="WorkSchedules">
+          <Key>
+            <PropertyRef Name="WorkScheduleID" />
+          </Key>
+          <Property Name="WorkScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="BeginWorkDay" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndWorkDay" Type="time" Precision="7" Nullable="false" />
+          <Property Name="DoctorID" Type="int" />
+        </EntityType>
+        <Association Name="FK_Appointments_Clients_ClientID">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Doctors_DoctorID">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services_ServiceID">
+          <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_StatusAppointment_StatusAppointmentID">
+          <End Role="StatusAppointment" Type="Self.StatusAppointment" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusAppointment">
+              <PropertyRef Name="StatusAppointmentID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="StatusAppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctors_Specializations_SpecializationID">
+          <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specializations">
+              <PropertyRef Name="SpecializationID" />
+            </Principal>
+            <Dependent Role="Doctors">
+              <PropertyRef Name="SpecializationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryAppointment_Appointments_AppointmentsAppointmentID">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
+          <End Role="HistoryAppointment" Type="Self.HistoryAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentID" />
+            </Principal>
+            <Dependent Role="HistoryAppointment">
+              <PropertyRef Name="AppointmentsAppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryAppointment_Clients_ClientID">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="HistoryAppointment" Type="Self.HistoryAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="HistoryAppointment">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkSchedules_Doctors_DoctorID">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="0..1" />
+          <End Role="WorkSchedules" Type="Self.WorkSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorID" />
+            </Principal>
+            <Dependent Role="WorkSchedules">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DentalClinicDBModelContainer">
+          <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryAppointment" EntityType="Self.HistoryAppointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specializations" EntityType="Self.Specializations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusAppointment" EntityType="Self.StatusAppointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkSchedules" EntityType="Self.WorkSchedules" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Appointments_Clients_ClientID" Association="Self.FK_Appointments_Clients_ClientID">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Doctors_DoctorID" Association="Self.FK_Appointments_Doctors_DoctorID">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services_ServiceID" Association="Self.FK_Appointments_Services_ServiceID">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_StatusAppointment_StatusAppointmentID" Association="Self.FK_Appointments_StatusAppointment_StatusAppointmentID">
+            <End Role="StatusAppointment" EntitySet="StatusAppointment" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctors_Specializations_SpecializationID" Association="Self.FK_Doctors_Specializations_SpecializationID">
+            <End Role="Specializations" EntitySet="Specializations" />
+            <End Role="Doctors" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryAppointment_Appointments_AppointmentsAppointmentID" Association="Self.FK_HistoryAppointment_Appointments_AppointmentsAppointmentID">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="HistoryAppointment" EntitySet="HistoryAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryAppointment_Clients_ClientID" Association="Self.FK_HistoryAppointment_Clients_ClientID">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="HistoryAppointment" EntitySet="HistoryAppointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkSchedules_Doctors_DoctorID" Association="Self.FK_WorkSchedules_Doctors_DoctorID">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="WorkSchedules" EntitySet="WorkSchedules" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DentalClinicDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="AppointmentID" />
+          </Key>
+          <Property Name="AppointmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BeginTimeAppointment" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTimeAppointment" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="DateAppointment" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="DoctorID" Type="Int32" />
+          <Property Name="StatusAppointmentID" Type="Int32" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="ServiceID" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Appointments_Clients_ClientID" FromRole="Appointments" ToRole="Clients" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Appointments_Doctors_DoctorID" FromRole="Appointments" ToRole="Doctors" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Appointments_Services_ServiceID" FromRole="Appointments" ToRole="Services" />
+          <NavigationProperty Name="StatusAppointment" Relationship="Self.FK_Appointments_StatusAppointment_StatusAppointmentID" FromRole="Appointments" ToRole="StatusAppointment" />
+          <NavigationProperty Name="HistoryAppointments" Relationship="Self.FK_HistoryAppointment_Appointments_AppointmentsAppointmentID" FromRole="Appointments" ToRole="HistoryAppointment" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DayOfBirth" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Clients_ClientID" FromRole="Clients" ToRole="Appointments" />
+          <NavigationProperty Name="HistoryAppointments" Relationship="Self.FK_HistoryAppointment_Clients_ClientID" FromRole="Clients" ToRole="HistoryAppointment" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="DoctorID" />
+          </Key>
+          <Property Name="DoctorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PersonalPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CabinetNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkExperience" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SpecializationID" Type="Int32" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Doctors_DoctorID" FromRole="Doctors" ToRole="Appointments" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK_Doctors_Specializations_SpecializationID" FromRole="Doctors" ToRole="Specializations" />
+          <NavigationProperty Name="WorkSchedules" Relationship="Self.FK_WorkSchedules_Doctors_DoctorID" FromRole="Doctors" ToRole="WorkSchedules" />
+        </EntityType>
+        <EntityType Name="HistoryAppointment">
+          <Key>
+            <PropertyRef Name="HistoryAppointmentID" />
+          </Key>
+          <Property Name="HistoryAppointmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="AppointmentsAppointmentID" Type="Int32" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_HistoryAppointment_Appointments_AppointmentsAppointmentID" FromRole="HistoryAppointment" ToRole="Appointments" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_HistoryAppointment_Clients_ClientID" FromRole="HistoryAppointment" ToRole="Clients" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Services_ServiceID" FromRole="Services" ToRole="Appointments" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="SpecializationID" />
+          </Key>
+          <Property Name="SpecializationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecializationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctors_Specializations_SpecializationID" FromRole="Specializations" ToRole="Doctors" />
+        </EntityType>
+        <EntityType Name="StatusAppointment">
+          <Key>
+            <PropertyRef Name="StatusAppointmentID" />
+          </Key>
+          <Property Name="StatusAppointmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_StatusAppointment_StatusAppointmentID" FromRole="StatusAppointment" ToRole="Appointments" />
+        </EntityType>
+        <EntityType Name="WorkSchedule">
+          <Key>
+            <PropertyRef Name="WorkScheduleID" />
+          </Key>
+          <Property Name="WorkScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="BeginWorkDay" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndWorkDay" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="DoctorID" Type="Int32" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_WorkSchedules_Doctors_DoctorID" FromRole="WorkSchedules" ToRole="Doctors" />
+        </EntityType>
+        <Association Name="FK_Appointments_Clients_ClientID">
+          <End Role="Clients" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Doctors_DoctorID">
+          <End Role="Doctors" Type="Self.Doctor" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_Services_ServiceID">
+          <End Role="Services" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointments_StatusAppointment_StatusAppointmentID">
+          <End Role="StatusAppointment" Type="Self.StatusAppointment" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusAppointment">
+              <PropertyRef Name="StatusAppointmentID" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="StatusAppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryAppointment_Appointments_AppointmentsAppointmentID">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="HistoryAppointment" Type="Self.HistoryAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentID" />
+            </Principal>
+            <Dependent Role="HistoryAppointment">
+              <PropertyRef Name="AppointmentsAppointmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryAppointment_Clients_ClientID">
+          <End Role="Clients" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="HistoryAppointment" Type="Self.HistoryAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="HistoryAppointment">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctors_Specializations_SpecializationID">
+          <End Role="Specializations" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Doctors" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specializations">
+              <PropertyRef Name="SpecializationID" />
+            </Principal>
+            <Dependent Role="Doctors">
+              <PropertyRef Name="SpecializationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkSchedules_Doctors_DoctorID">
+          <End Role="Doctors" Type="Self.Doctor" Multiplicity="0..1" />
+          <End Role="WorkSchedules" Type="Self.WorkSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorID" />
+            </Principal>
+            <Dependent Role="WorkSchedules">
+              <PropertyRef Name="DoctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DentalClinicEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctor" />
+          <EntitySet Name="HistoryAppointments" EntityType="Self.HistoryAppointment" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Specializations" EntityType="Self.Specialization" />
+          <EntitySet Name="StatusAppointments" EntityType="Self.StatusAppointment" />
+          <EntitySet Name="WorkSchedules" EntityType="Self.WorkSchedule" />
+          <AssociationSet Name="FK_Appointments_Clients_ClientID" Association="Self.FK_Appointments_Clients_ClientID">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Doctors_DoctorID" Association="Self.FK_Appointments_Doctors_DoctorID">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_Services_ServiceID" Association="Self.FK_Appointments_Services_ServiceID">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointments_StatusAppointment_StatusAppointmentID" Association="Self.FK_Appointments_StatusAppointment_StatusAppointmentID">
+            <End Role="StatusAppointment" EntitySet="StatusAppointments" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryAppointment_Appointments_AppointmentsAppointmentID" Association="Self.FK_HistoryAppointment_Appointments_AppointmentsAppointmentID">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="HistoryAppointment" EntitySet="HistoryAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryAppointment_Clients_ClientID" Association="Self.FK_HistoryAppointment_Clients_ClientID">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="HistoryAppointment" EntitySet="HistoryAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctors_Specializations_SpecializationID" Association="Self.FK_Doctors_Specializations_SpecializationID">
+            <End Role="Specializations" EntitySet="Specializations" />
+            <End Role="Doctors" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkSchedules_Doctors_DoctorID" Association="Self.FK_WorkSchedules_Doctors_DoctorID">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="WorkSchedules" EntitySet="WorkSchedules" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DentalClinicDBModelContainer" CdmEntityContainer="DentalClinicEntities">
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="AppointmentID" ColumnName="AppointmentID" />
+                <ScalarProperty Name="BeginTimeAppointment" ColumnName="BeginTimeAppointment" />
+                <ScalarProperty Name="EndTimeAppointment" ColumnName="EndTimeAppointment" />
+                <ScalarProperty Name="DateAppointment" ColumnName="DateAppointment" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="StatusAppointmentID" ColumnName="StatusAppointmentID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DayOfBirth" ColumnName="DayOfBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+                <ScalarProperty Name="PersonalPhone" ColumnName="PersonalPhone" />
+                <ScalarProperty Name="CabinetNumber" ColumnName="CabinetNumber" />
+                <ScalarProperty Name="WorkExperience" ColumnName="WorkExperience" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="SpecializationID" ColumnName="SpecializationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryAppointments">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.HistoryAppointment">
+              <MappingFragment StoreEntitySet="HistoryAppointment">
+                <ScalarProperty Name="HistoryAppointmentID" ColumnName="HistoryAppointmentID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="AppointmentsAppointmentID" ColumnName="AppointmentsAppointmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specializations">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.Specialization">
+              <MappingFragment StoreEntitySet="Specializations">
+                <ScalarProperty Name="SpecializationID" ColumnName="SpecializationID" />
+                <ScalarProperty Name="SpecializationName" ColumnName="SpecializationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusAppointments">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.StatusAppointment">
+              <MappingFragment StoreEntitySet="StatusAppointment">
+                <ScalarProperty Name="StatusAppointmentID" ColumnName="StatusAppointmentID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkSchedules">
+            <EntityTypeMapping TypeName="DentalClinicDBModel.WorkSchedule">
+              <MappingFragment StoreEntitySet="WorkSchedules">
+                <ScalarProperty Name="WorkScheduleID" ColumnName="WorkScheduleID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="BeginWorkDay" ColumnName="BeginWorkDay" />
+                <ScalarProperty Name="EndWorkDay" ColumnName="EndWorkDay" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

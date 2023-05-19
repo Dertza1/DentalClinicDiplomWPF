@@ -1,0 +1,21 @@
+﻿<Application x:Class="PrivateDentalClinic.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PrivateDentalClinic"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="styleFontFamily" TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="/Font/#Onest" />
+        </Style>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="IsEnabled" Value="False"/>
+        </Style>
+
+
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="AliceBlue"></Setter>
+        </Style>
+    </Application.Resources>
+</Application>

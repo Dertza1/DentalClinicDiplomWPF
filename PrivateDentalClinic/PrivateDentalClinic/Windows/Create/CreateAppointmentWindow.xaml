@@ -1,0 +1,154 @@
+﻿<Window x:Class="PrivateDentalClinic.Windows.CreateAppointment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrivateDentalClinic.Windows"
+        mc:Ignorable="d"
+        Title="" Height="545" Width="935" ResizeMode="NoResize" Style="{StaticResource styleFontFamily}"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Запись на прием" Grid.ColumnSpan="2" FontSize="24" Foreground="#0E53A7" HorizontalAlignment="Center" Margin="0,15,0,15" Width="201"/>
+
+        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,69,467,73" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="410">
+                <TextBlock Text="Выберите доктора:" Margin="10,0,5,0" Width="166" Height="20" FontSize="18"/>
+                <ComboBox x:Name="ComboBoxSelectDoctor" Margin="6,10" Width="216" Height="30" FontSize="16" SelectionChanged="ComboBoxSelectDoctor_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel   Orientation="Horizontal" HorizontalAlignment="Center" Width="408">
+                <TextBlock Text="Выберите дату:" Margin="11" Width="132" Height="20" FontSize="18"/>
+                <ComboBox x:Name="ComboBoxSelectDate" Margin="32,15,15,15" Width="215" Height="32" FontSize="16" SelectionChanged="ComboBoxSelectDate_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel x:Name="StackPanelTimes" Visibility="Collapsed" Orientation="Vertical" HorizontalAlignment="Center" Width="406" MaxHeight="168" >
+                <TextBlock Text="Время приема:" Margin="5" Width="132" Height="20" FontSize="17"/>
+                <DataGrid x:Name="talonsDataGrid" ItemsSource="{Binding Talons}" BorderBrush="AliceBlue" ColumnWidth="*" IsReadOnly="True" Background="AliceBlue" HorizontalAlignment="Center" AutoGenerateColumns="False" CanUserResizeColumns="False" MaxHeight="130" Width="204" FontSize="17">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Header="Свободное время" Width="*" Binding="{Binding TimeBeginAppointment}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+                                    <Setter Property="Height" Value="30"></Setter>
+                                    <Setter Property="TextBlock.VerticalAlignment" Value="Center"></Setter>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="FontSize" Value="18"></Setter>
+                                    <Setter Property="Height" Value="35"></Setter>
+                                    <Setter Property="Background" Value="#679ED2"></Setter>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                    <Setter Property="Foreground" Value="White"></Setter>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="406">
+                <TextBlock Text="Выберите услугу:" Margin="10" Width="152" Height="20" FontSize="18"/>
+                <ComboBox x:Name="ComboBoxSelectService" Margin="12,15,15,15" Width="215" Height="32" FontSize="16"/>
+            </StackPanel>
+
+            <StackPanel>
+
+            </StackPanel>
+            <StackPanel>
+
+            </StackPanel>
+            <StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelClients" Grid.Column="1" Margin="0,54,0,70" Visibility="Visible">
+            <TextBlock HorizontalAlignment="Center" Text="Выберите пациента из списка" FontSize="18" FontWeight="ExtraBlack" Margin="10" Height="24"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="61">
+                <TextBlock Text="Поиск:" FontSize="17" Margin="15,15,10,15" Height="24" ></TextBlock>
+                <TextBox x:Name="TextBoxSearchClient" Text="" FontSize="17" Margin="10" Height="36" Width="213" PreviewTextInput="TextBoxSearchClient_PreviewTextInput"/>
+            </StackPanel>
+            <DataGrid BorderBrush="AliceBlue" IsReadOnly="True" Background="AliceBlue" Margin="0,0,10,0" x:Name="DataGridClients" FontSize="16" ColumnWidth="*" ItemsSource="{Binding Clients}"  HorizontalAlignment="Center" AutoGenerateColumns="False" CanUserResizeColumns="False" MaxHeight="215">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="250" Header="ФИО пациента" Binding="{Binding ClientName}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+                                <Setter Property="Height" Value="30"></Setter>
+                                <Setter Property="TextBlock.VerticalAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Foreground" Value="White"></Setter>
+                                <Setter Property="Height" Value="35"></Setter>
+                                <Setter Property="FontSize" Value="17"></Setter>
+                                <Setter Property="Background" Value="#679ED2"></Setter>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn  Header="Дата рождения" Binding="{Binding DateOfBirth}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+                                <Setter Property="Height" Value="30"></Setter>
+                                <Setter Property="TextBlock.VerticalAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="FontSize" Value="17"></Setter>
+                                <Setter Property="Background" Value="#679ED2"></Setter>
+                                <Setter Property="Foreground" Value="White"></Setter>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Если пациент не зарегистрирован: " Margin="10,10,5,10" Height="21" FontSize="17"></TextBlock>
+                <Button x:Name="ButtonRegistrationClient" Foreground="#0E53A7" Click="ButtonRegistrationClient_Click" Content="Зарегистрировать" FontSize="15"  Background="AliceBlue" Margin="10" Height="25" Width="140"></Button>
+            </StackPanel>
+        </StackPanel>
+
+
+        <StackPanel x:Name="StackPanelRegistration" Grid.Column="1" Margin="0,54,0,55" Visibility="Hidden">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,5">
+                <TextBlock Text="Фамилия пациента:" Margin="10" Width="156" Height="20" FontSize="17"/>
+                <TextBox x:Name="TextBoxClientLastName" Margin="10" Width="214" Height="30" FontSize="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                <TextBlock Text="Имя пациента:" Margin="10" Width="156" Height="20" FontSize="17"/>
+                <TextBox x:Name="TextBoxClientFirstName" Margin="10" Width="214" Height="30" FontSize="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                <TextBlock Text="Отчество пациента:" Margin="10" Width="156" Height="20" FontSize="17"/>
+                <TextBox x:Name="TextBoxClientMiddleName" Margin="10" Width="214" Height="30" FontSize="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <TextBlock Text="Телефон пациента:" Margin="10" Width="156" Height="20" FontSize="17"/>
+                <TextBox x:Name="TextBoxClientPhone" Margin="10" Width="214" Height="30" FontSize="16"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                <TextBlock Text="Дата рождения:" Margin="10" Width="156" Height="20" FontSize="17"/>
+                <TextBox x:Name="TextBoxClientDateOfBirth" Margin="10" Width="214" Height="30" FontSize="16"/>
+            </StackPanel>
+            <Button x:Name="ButtonBackToClients" Content="Вернуться к поиску" Foreground="#0E53A7" Width="156" HorizontalAlignment="Right" Margin="5" Background="AliceBlue" Height="25" Click="ButtonBackToClients_Click"></Button>
+        </StackPanel>
+
+
+
+
+
+        <Button Content="Записать" Background="AliceBlue" Foreground="#0E53A7" x:Name="ButtonCreateAppointment" Click="ButtonCreateAppointment_Click" FontSize="22" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="224" Height="40" Margin="20">
+        </Button>
+    </Grid>
+</Window>
