@@ -28,18 +28,21 @@ namespace PrivateDentalClinic.Windows
         private static Appointment AppointmentEdit { get; set; } = new Appointment();
         private static Doctor DoctorSelect { get; set; }
         private bool EditTalon { get; set; } = false;
+        private bool AppointmentBegin { get; set; } = false;
+
+       
         public EditAppointmentWindow(AppoinmentsView appoinment)
         {
 
             DbContext = DentalClinicEntities.GetContext();
             AppointmentEdit = DbContext.Appointments.Include(b => b.Service).Include(b => b.Doctor).FirstOrDefault(b => b.AppointmentID == appoinment.AppointmentID);
+            DoctorSelect = AppointmentEdit.Doctor;
 
             InitializeComponent();
 
-
             ComboBoxDoctorData();
             ComboBoxServiceData();
-            ComboBoxStatusData();
+            //ComboBoxStatusData();
             DataGridClientsData();
 
 
@@ -47,9 +50,8 @@ namespace PrivateDentalClinic.Windows
             ComboBoxDate.Text = AppointmentEdit.DateAppointment.ToShortDateString();
             TalonsDataGrid(AppointmentEdit.DateAppointment.ToShortDateString());
             ComboBoxService.Text = AppointmentEdit.Service.ServiceName;
-            ComboBoxStatus.Text = AppointmentEdit.StatusAppointment.StatusName;
+            //ComboBoxStatus.Text = AppointmentEdit.StatusAppointment.StatusName;
             TextBlockCurrentTime.Text = AppointmentEdit.BeginTimeAppointment.ToString(@"hh\:mm");
-
 
             foreach (var item in DataGridClients.Items)
             {
@@ -74,17 +76,17 @@ namespace PrivateDentalClinic.Windows
             }
         }
 
-        private void ComboBoxStatusData()
-        {
-            var Services = DbContext.StatusAppointments.ToList();
+        //private void ComboBoxStatusData()
+        //{
+        //    var Services = DbContext.StatusAppointments.ToList();
 
-            ComboBoxStatus.Items.Add("");
+        //    ComboBoxStatus.Items.Add("");
 
-            foreach (var item in Services)
-            {
-                ComboBoxStatus.Items.Add($"{item.StatusName}");
-            }
-        }
+        //    foreach (var item in Services)
+        //    {
+        //        ComboBoxStatus.Items.Add($"{item.StatusName}");
+        //    }
+        //}
 
         private void ComboBoxDoctorData()
         {
@@ -211,7 +213,7 @@ namespace PrivateDentalClinic.Windows
             {
                 if (ComboBoxDoctor.SelectedItem == null || ComboBoxDoctor.SelectedIndex == 0 ||
                ComboBoxDate.SelectedItem == null || ComboBoxDate.SelectedIndex == 0 || talonsDataGrid.SelectedItem == null
-               || ComboBoxService.SelectedItem == null || ComboBoxService.SelectedIndex == 0 || DataGridClients.SelectedItem == null || ComboBoxStatus.SelectedItem == null || ComboBoxStatus.SelectedIndex == 0)
+               || ComboBoxService.SelectedItem == null || ComboBoxService.SelectedIndex == 0 || DataGridClients.SelectedItem == null)
                 {
                     InfoMessageWindow errorMessage = new InfoMessageWindow("Заполните все данные");
                     errorMessage.ShowDialog();
@@ -220,7 +222,7 @@ namespace PrivateDentalClinic.Windows
 
                 var oldStatus = AppointmentEdit.StatusAppointment;
 
-                var newStatus = DbContext.StatusAppointments.FirstOrDefault(b => b.StatusName == ComboBoxStatus.SelectedItem.ToString());
+                var newStatus = DbContext.StatusAppointments.FirstOrDefault(b => b.StatusName == "Записан");
                 var services = DbContext.Services.FirstOrDefault(b => b.ServiceName == ComboBoxService.SelectedItem.ToString());
                 var client = DbContext.Clients.FirstOrDefault(b => b.ClientID == ((ClientsView)(DataGridClients.SelectedItem)).ClientID);
                 var talonTime = talonsDataGrid.SelectedItem as TalonsView;
@@ -232,13 +234,6 @@ namespace PrivateDentalClinic.Windows
 
                 var currentDate = DateTime.Now.Date;
                 var currentTime = DateTime.Now.TimeOfDay;
-
-                if ((newStatus.StatusName == "Принят" || newStatus.StatusName == "Не явился") && AppointmentEdit.DateAppointment > currentDate && AppointmentEdit.BeginTimeAppointment < currentTime)
-                {
-                    InfoMessageWindow errorMessage = new InfoMessageWindow("Невозможно установить статус 'Принят' до наступления времени приема");
-                    errorMessage.ShowDialog();
-                    return;
-                }
 
                 AppointmentEdit.StatusAppointment = newStatus;
 
@@ -267,8 +262,7 @@ namespace PrivateDentalClinic.Windows
                 if (ComboBoxDoctor.SelectedItem == null || ComboBoxDoctor.SelectedIndex == 0
                 || ComboBoxDate.SelectedItem == null || ComboBoxDate.SelectedIndex == 0
                 || ComboBoxService.SelectedItem == null || ComboBoxService.SelectedIndex == 0 
-                || DataGridClients.SelectedItem == null || ComboBoxStatus.SelectedItem == null 
-                || ComboBoxStatus.SelectedIndex == 0)
+                || DataGridClients.SelectedItem == null)
                 {
                     InfoMessageWindow errorMessage = new InfoMessageWindow("Заполните все данные");
                     errorMessage.ShowDialog();
@@ -277,7 +271,7 @@ namespace PrivateDentalClinic.Windows
 
                 var oldStatus = AppointmentEdit.StatusAppointment;
 
-                var newStatus = DbContext.StatusAppointments.FirstOrDefault(b => b.StatusName == ComboBoxStatus.SelectedItem.ToString());
+                var newStatus = DbContext.StatusAppointments.FirstOrDefault(b => b.StatusName == "Записан");
                 var services = DbContext.Services.FirstOrDefault(b => b.ServiceName == ComboBoxService.SelectedItem.ToString());
                 var client = DbContext.Clients.FirstOrDefault(b => b.ClientID == ((ClientsView)(DataGridClients.SelectedItem)).ClientID);
                 
@@ -285,23 +279,11 @@ namespace PrivateDentalClinic.Windows
                 var currentDate = DateTime.Now.Date;
                 var currentTime = DateTime.Now.TimeOfDay;
 
-                if ((newStatus.StatusName == "Принят" || newStatus.StatusName == "Не явился")  && AppointmentEdit.DateAppointment > currentDate && AppointmentEdit.BeginTimeAppointment < currentTime)
-                {
-                    InfoMessageWindow errorMessage = new InfoMessageWindow("Невозможно установить статус до наступления времени приема");
-                    errorMessage.ShowDialog();
-                    return;
-                }
-
                 AppointmentEdit.StatusAppointment = newStatus;
 
                 AppointmentEdit.Service = services;
 
                 AppointmentEdit.Client = client;
-
-                if (newStatus.StatusName == "Принят" && oldStatus.StatusName != "Принят")
-                {
-                    client.HistoryAppointments.Add(new HistoryAppointment { Appointment = AppointmentEdit, Client = client });
-                }
 
                 DbContext.Appointments.AddOrUpdate(AppointmentEdit);
                 DbContext.Clients.AddOrUpdate(client);
@@ -315,8 +297,30 @@ namespace PrivateDentalClinic.Windows
 
         private void ButtonDeleteAppointment_Click(object sender, RoutedEventArgs e)
         {
-            
 
+            if (MessageBox.Show("Отменить запись?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                var date = DateTime.Now.Date;
+
+                if (AppointmentEdit.DateAppointment.Date == date && AppointmentEdit.BeginTimeAppointment <= DateTime.Now.TimeOfDay)
+                {
+                    MessageBox.Show("Отменить невозможно, время приема пошло");
+                    return;
+                }
+                else
+                {
+                    DbContext.Appointments.Remove(AppointmentEdit);
+                    DbContext.SaveChanges();
+
+                    MessageBox.Show("Отмена прошла успешно");
+                    this.Close();
+                    return;
+                }
+            }
         }
 
         private void ComboBoxDoctor_SelectionChanged(object sender, SelectionChangedEventArgs e)

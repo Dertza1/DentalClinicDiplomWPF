@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PrivateDentalClinic.Windows"
         mc:Ignorable="d"
-        Title="EditAppointmentWindow" Height="765" Width="965" ResizeMode="NoResize" Style="{StaticResource styleFontFamily}"
+        Title="EditAppointmentWindow" Height="765" Width="825" ResizeMode="NoResize" Style="{StaticResource styleFontFamily}"
         WindowStartupLocation="CenterScreen">
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
@@ -13,16 +13,16 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Foreground="#0E53A7" Text="Изменить запись на прием" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="24" Margin="15"></TextBlock>
+        <TextBlock Foreground="#0E53A7" Text="Изменить запись на прием" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="24" Margin="40"></TextBlock>
         <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,90,20,20">
             <TextBlock Text="Доктор:" FontSize="19" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <ComboBox x:Name="ComboBoxDoctor" Margin="5,5,5,20" Width="214" Height="35" FontSize="16" SelectionChanged="ComboBoxDoctor_SelectionChanged"/>
+                <ComboBox x:Name="ComboBoxDoctor" Margin="5,5,5,20" Width="253" Height="35" FontSize="16" SelectionChanged="ComboBoxDoctor_SelectionChanged"/>
             </StackPanel>
 
             <TextBlock Text="Дата записи:" FontSize="19" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <ComboBox x:Name="ComboBoxDate" Margin="5,5,5,20" Width="214"  Height="35" FontSize="16" SelectionChanged="ComboBoxDate_SelectionChanged"/>
+                <ComboBox x:Name="ComboBoxDate" Margin="5,5,5,20" Width="253"  Height="35" FontSize="16" SelectionChanged="ComboBoxDate_SelectionChanged"/>
             </StackPanel>
 
             <StackPanel  x:Name="StackPanelCurrentTime" Visibility="Visible">
@@ -35,7 +35,7 @@
                 <TextBlock Text="Время записи на прием" FontSize="19" HorizontalAlignment="Center"></TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                     <DataGrid x:Name="talonsDataGrid" Width="345" ItemsSource="{Binding Talons}" BorderBrush="AliceBlue" ColumnWidth="*" IsReadOnly="True" Background="AliceBlue"
-                              AutoGenerateColumns="False" CanUserResizeColumns="False" MaxHeight="191" FontSize="17" Margin="0,0,0,20" Height="191" >
+                              AutoGenerateColumns="False" CanUserResizeColumns="False" MaxHeight="191" FontSize="17" Margin="0,0,0,20" >
                         <DataGrid.Columns>
                             <DataGridTextColumn  Header="Свободное время на данный день " Width="*" Binding="{Binding TimeBeginAppointment}">
                                 <DataGridTextColumn.CellStyle>
@@ -70,8 +70,10 @@
                     <TextBlock Text="Поиск:" FontSize="19" Margin="15,15,10,15" Height="24" ></TextBlock>
                     <TextBox x:Name="TextBoxSearchClient" Text="" FontSize="18" Margin="10" Height="36" Width="213" PreviewTextInput="TextBoxSearchClient_PreviewTextInput"/>
                 </StackPanel>
-                <DataGrid BorderBrush="AliceBlue" IsReadOnly="True" Background="AliceBlue" Margin="0,0,10,20" x:Name="DataGridClients" FontSize="16" ColumnWidth="*"
-                          ItemsSource="{Binding Clients}" AutoGenerateColumns="False" CanUserResizeColumns="False" Width="432" MaxHeight="209" Height="209" >
+                <DataGrid BorderBrush="AliceBlue" IsReadOnly="True" Background="AliceBlue"
+                          Margin="0,0,10,20" x:Name="DataGridClients" FontSize="16" ColumnWidth="*"
+                          ItemsSource="{Binding Clients}" AutoGenerateColumns="False"
+                          CanUserResizeColumns="False" Width="432" MaxHeight="209" >
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="230" Header="ФИО пациента" Binding="{Binding ClientName}">
@@ -116,20 +118,13 @@
 
             <TextBlock Text="Услуга:" FontSize="19" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <ComboBox x:Name="ComboBoxService" Margin="5" Width="214" Height="35" FontSize="16"/>
+                <ComboBox x:Name="ComboBoxService" Margin="5" Width="253" Height="35" FontSize="16"/>
             </StackPanel>
-
-            <TextBlock Text="Статус записи:" FontSize="19" HorizontalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <ComboBox x:Name="ComboBoxStatus" Margin="5" Width="214" Height="35" FontSize="17"/>
-            </StackPanel>
-            
-            
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="25">
             <Button x:Name="ButtonEditAppointment" Width="200" Margin="10" Height="40" Content="Изменить запись" FontSize="20" Background="AliceBlue" Foreground="#0E53A7" Click="ButtonEditAppointment_Click"></Button>
-            <Button x:Name="ButtonDeleteAppointment" Width="200" Margin="10" Height="40" Content="Удалить запись" FontSize="20" Background="AliceBlue" Foreground="#FF7373" Click="ButtonDeleteAppointment_Click"></Button>
+            <Button x:Name="ButtonDeleteAppointment" Width="200" Margin="10" Height="40" Content="Отменить запись" FontSize="20" Background="AliceBlue" Foreground="#FF7373" Click="ButtonDeleteAppointment_Click"></Button>
             <Button x:Name="ButtonCancelAppointment" Width="188" Margin="10" Height="40" Content="Отмена" FontSize="20" Background="AliceBlue" Foreground="#FF7373" Click="ButtonCancelAppointment_Click"></Button>
         </StackPanel>
 

@@ -80,8 +80,6 @@ namespace PrivateDentalClinic.Windows
 
             if (result == true)
             {
-
-
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
                 image.UriSource = new Uri(dlg.FileName);

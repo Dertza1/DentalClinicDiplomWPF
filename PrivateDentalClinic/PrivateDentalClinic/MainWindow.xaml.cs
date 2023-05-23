@@ -2,6 +2,7 @@
 using PrivateDentalClinic.Views;
 using PrivateDentalClinic.Windows;
 using PrivateDentalClinic.Windows.Create;
+using PrivateDentalClinic.Windows.Edit;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -167,10 +168,22 @@ namespace PrivateDentalClinic
         private void TableAppointments_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = (DataGrid)sender;
-            var appointment = dataGrid.SelectedItem as AppoinmentsView;
+            var appointmentView = dataGrid.SelectedItem as AppoinmentsView;
 
-            EditAppointmentWindow editAppointment = new EditAppointmentWindow(appointment);
-            editAppointment.ShowDialog();
+            var appointment = DbContext.Appointments.FirstOrDefault(b => b.AppointmentID == appointmentView.AppointmentID);
+
+            var date = DateTime.Now.Date;
+          
+            if (appointment.DateAppointment.Date == date && appointment.BeginTimeAppointment <= DateTime.Now.TimeOfDay)
+            {
+                EditStatusAppointmentWindow editStatus = new EditStatusAppointmentWindow(appointment);
+                editStatus.ShowDialog();
+            }
+            else
+            {
+                EditAppointmentWindow editAppointment = new EditAppointmentWindow(appointmentView);
+                editAppointment.ShowDialog();
+            }
 
             AppointmentListViewData();
 
@@ -215,9 +228,10 @@ namespace PrivateDentalClinic
                         {
                             DoctorID = item.DoctorID,
                             Date = itemDay.Date.ToShortDateString(),
-                            BeginTimeDay = itemDay.BeginWorkDay,
-                            EndTimeDay = itemDay.EndWorkDay
-                        };
+                            BeginTimeDay = itemDay.BeginWorkDay.ToString(@"hh\:mm"),
+                            EndTimeDay = itemDay.EndWorkDay.ToString(@"hh\:mm")
+
+                    };
 
                         days.Add(day);
                     }
@@ -232,8 +246,8 @@ namespace PrivateDentalClinic
                         {
                             DoctorID = item.DoctorID,
                             Date = itemDay.Date.ToShortDateString(),
-                            BeginTimeDay = itemDay.BeginWorkDay,
-                            EndTimeDay = itemDay.EndWorkDay
+                            BeginTimeDay = itemDay.BeginWorkDay.ToString(@"hh\:mm"),
+                            EndTimeDay = itemDay.EndWorkDay.ToString(@"hh\:mm")
                         };
 
                         days.Add(day);
@@ -249,8 +263,8 @@ namespace PrivateDentalClinic
                         {
                             DoctorID = item.DoctorID,
                             Date = itemDay.Date.ToShortDateString(),
-                            BeginTimeDay = itemDay.BeginWorkDay,
-                            EndTimeDay = itemDay.EndWorkDay
+                            BeginTimeDay = itemDay.BeginWorkDay.ToString(@"hh\:mm"),
+                            EndTimeDay = itemDay.EndWorkDay.ToString(@"hh\:mm")
                         };
 
                         days.Add(day);
@@ -266,8 +280,8 @@ namespace PrivateDentalClinic
                         {
                             DoctorID = item.DoctorID,
                             Date = itemDay.Date.ToShortDateString(),
-                            BeginTimeDay = itemDay.BeginWorkDay,
-                            EndTimeDay = itemDay.EndWorkDay
+                            BeginTimeDay = itemDay.BeginWorkDay.ToString(@"hh\:mm"),
+                            EndTimeDay = itemDay.EndWorkDay.ToString(@"hh\:mm")
                         };
 
                         days.Add(day);
@@ -490,6 +504,7 @@ namespace PrivateDentalClinic
         #endregion
 
 
+       
 
         private static void DictionaryData()
         {

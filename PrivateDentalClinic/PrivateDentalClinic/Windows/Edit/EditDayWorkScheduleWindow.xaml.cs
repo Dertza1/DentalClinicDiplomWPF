@@ -25,8 +25,8 @@ namespace PrivateDentalClinic.Windows
             InitializeComponent();
 
             DatePickerWorkDay.SelectedDate = Convert.ToDateTime(day.Date);
-            TextBoxTimeBeginWorkDay.Text = $"{day.BeginTimeDay:hh}:{day.BeginTimeDay:mm}";
-            TextBoxTimeEndWorkDay.Text = $"{day.EndTimeDay:hh}:{day.EndTimeDay:mm}";
+            TextBoxTimeBeginWorkDay.Text = day.BeginTimeDay;
+            TextBoxTimeEndWorkDay.Text = day.EndTimeDay;
         }
 
         private void ButtonEdit_Click(object sender, RoutedEventArgs e)

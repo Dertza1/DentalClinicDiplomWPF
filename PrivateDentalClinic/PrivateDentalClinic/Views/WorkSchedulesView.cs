@@ -17,7 +17,7 @@ namespace PrivateDentalClinic.Views
     {
         public int DoctorID { get; set; }
         public string Date { get; set; }
-        public TimeSpan BeginTimeDay { get; set; } 
-        public TimeSpan EndTimeDay { get; set; }
+        public string BeginTimeDay { get; set; } 
+        public string EndTimeDay { get; set; }
     }
 }

@@ -78,7 +78,9 @@ namespace PrivateDentalClinic.Windows
                 DatesWorkSchedule.Add(
                     new DatesScheduleWork
                     {
-                        Dates = date,
+                        Dates = date.ToShortDateString(),
+                        TimeBegin = "00:00",
+                        TimeEnd = "00:00",
                     }
                 );
             }
@@ -113,7 +115,7 @@ namespace PrivateDentalClinic.Windows
 
             foreach (var day in workScheduleDataGrid)
             {
-                if (workSchedule.Any(b=>b.Date == day.Dates))
+                if (workSchedule.Any(b=>b.Date == Convert.ToDateTime(day.Dates)))
                 {
 
                     InfoMessageWindow infoWindow = new InfoMessageWindow($"На {day.Dates} уже составлен график работы.\nПроверьте выбранные данные.");
@@ -131,9 +133,9 @@ namespace PrivateDentalClinic.Windows
                     new WorkSchedule
                     {
                         Doctor = doctor,
-                        Date = day.Dates,
-                        BeginWorkDay = day.TimeBegin,
-                        EndWorkDay = day.TimeEnd,
+                        Date = Convert.ToDateTime(day.Dates),
+                        BeginWorkDay = TimeSpan.Parse(day.TimeBegin),
+                        EndWorkDay = TimeSpan.Parse(day.TimeEnd),
                         DoctorID = doctor.DoctorID
                     });
             }
@@ -149,8 +151,8 @@ namespace PrivateDentalClinic.Windows
 
     public class DatesScheduleWork
     {
-        public DateTime Dates { get; set; }
-        public TimeSpan TimeBegin { get; set; }
-        public TimeSpan TimeEnd { get; set; }
+        public string Dates { get; set; }
+        public string TimeBegin { get; set; }
+        public string TimeEnd { get; set; }
     }
 }

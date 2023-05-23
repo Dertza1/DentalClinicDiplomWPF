@@ -86,6 +86,9 @@
     <Compile Include="Windows\Edit\EditDayWorkScheduleWindow.xaml.cs">
       <DependentUpon>EditDayWorkScheduleWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Edit\EditStatusAppointmentWindow.xaml.cs">
+      <DependentUpon>EditStatusAppointmentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Modal\ModalQuestionWorkSchedule.xaml.cs">
       <DependentUpon>ModalQuestionWorkSchedule.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Edit\EditDayWorkScheduleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Edit\EditStatusAppointmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
